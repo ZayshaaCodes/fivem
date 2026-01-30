@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  fivem:
+    build: .
+    container_name: FiveM
+    # user: "1000:1000"  # Run as your user to avoid permission issues
+    # restart: 
+    stdin_open: true  # -i flag (interactive)
+    tty: true         # -t flag (pseudo-tty)
+    
+    environment:
+      # REQUIRED: Get your license key from https://keymaster.fivem.net/
+      # LICENSE_KEY: ${LICENSE_KEY}
+      
+      # OPTIONAL: Uncomment and set as needed
+      # RCON_PASSWORD: your_rcon_password_here
+      NO_DEFAULT_CONFIG: 1  # Enable this for txAdmin web UI
+      # NO_LICENSE_KEY: 1     # If license key is in config file instead
+      # NO_ONESYNC: 1         # Disable OneSync if needed
+    
+    ports:
+      # FiveM game server ports
+      - "30120:30120/tcp"
+      - "30120:30120/udp"
+      
+      # txAdmin web UI port (uncomment if using txAdmin)
+      - "40120:40120/tcp"
+    
+    volumes:
+      # FiveM server configuration
+      - ./config:/config
+      
+      # txAdmin data (uncomment if using txAdmin)
+      - ./txData:/txData
+      # Or use a named volume:
+      # - txdata:/txData
+    
+    depends_on:
+      - mysql
+      - mongodb
+
+  mysql:
+    image: mysql:8.0
+    container_name: FiveM_MySQL
+    restart: unless-stopped
+    
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: MythicFramework_7CF564
+    
+    ports:
+      - "3306:3306"
+    
+    volumes:
+      - mysql_data:/var/lib/mysql
+    
+    command: 
+      - --default-authentication-plugin=mysql_native_password
+      - --sql-mode=NO_ENGINE_SUBSTITUTION
+
+  mongodb:
+    image: mongo:7.0
+    container_name: FiveM_MongoDB
+    restart: unless-stopped
+    
+    environment:
+      MONGO_INITDB_DATABASE: auth
+    
+    ports:
+      - "27017:27017"
+    
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mysql_data:
+  mongodb_data:

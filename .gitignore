@@ -1,0 +1,44 @@
+# Temp folders
+temp/
+tmp/
+*.tmp
+txData/
+config/
+
+# Env files
+.env
+
+# Cache
+cache/
+*.cache
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.user
+*.swp
+*~
+
+# Node modules (if using JavaScript resources)
+node_modules/
+
+# Build outputs
+dist/
+build/
+*.dll
+*.exe
+*.pdb
+
+# FiveM specific
+resources/[local]/
+server.cfg.local
