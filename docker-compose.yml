@@ -4,7 +4,7 @@ services:
   fivem:
     build: .
     container_name: FiveM
-    # user: "1000:1000"  # Run as your user to avoid permission issues
+    user: "1000:1000"  # Run as your user to avoid permission issues
     # restart: 
     stdin_open: true  # -i flag (interactive)
     tty: true         # -t flag (pseudo-tty)
@@ -48,7 +48,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-      MYSQL_DATABASE: MythicFramework_7CF564
     
     ports:
       - "3306:3306"
